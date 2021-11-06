@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Simple fast log entry</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" class="rel">
+	
+	<meta name="description" content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+	<meta name="robots" content="index, follow">
+	<meta property="og:title" content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+	<meta property="og:url" content="https://sfle.ok2cqr.com">
+	<meta property="og:description" content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+	<meta property="og:site_name" content="Simple fast log entry">
+	<meta property="og:type" content="article">
+	<meta name="twitter:title" content="Simple fast log entry">
+	<meta name="twitter:url" content="https://sfle.ok2cqr.com">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:description" content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+  </head>
+  <body>
+    <div class="container-fluid mt-4">
+		<div class="row">
+			<div class="col">
+				<h1>Simple fast log entry</h1>
+			</div>
+		</div>
+		<ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" id="qso-tab" data-toggle="tab" href="#qso" role="tab" aria-controls="qso" aria-selected="true">QSO Entry</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="true">Settings</a>
+			</li>			
+			<li class="nav-item">
+				<a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">About</a>
+			</li>			
+		</ul>
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="qso" role="tabpanel" aria-labelledby="qso-tab">
+				<div class="row mt-4">
+					<div class="col-4">
+						<div class="row">
+							<div class="col">				
+								<div class="form-group">
+									<label for="qsodate">QSO date</label>
+									<input type="date" class="form-control" id="qsodate">
+								</div>				
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label for="wwff">WWFF/SOTA <span class="text-muted">e.g. OKFF-2068</span></label>
+									<input type="text" class="form-control text-uppercase" id="my-sota-wwff" autofocus>
+								</div>				
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label for="my-call">My call <span class="text-muted">e.g. OK2CQR/P</span></label>
+									<input type="text" class="form-control text-uppercase" id="my-call">
+								</div>				
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label for="operator">Operator <span class="text-muted">e.g. OK2CQR</span></label>
+									<input type="text" class="form-control text-uppercase" id="operator">
+								</div>				
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<p>Enter the data</p>
+								<textarea name="qso" class="form-control" cols="auto" rows="10">
+									
+								</textarea>
+							</div>
+						</div>
+					</div>
+					<div class="col-8">
+						QSO list
+						<table class="table table-condensed table-striped table-sm" id="qsoTable">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>Time</th>
+									<th>Callsign</th>
+									<th>Band</th>
+									<th>Mode</th>
+									<th>RS</th>
+									<th>RR</th>
+									<th>Op.</th>
+									<th>SOTA/WFF</th>
+								</tr>
+							</thead>
+							<tbody>
+		
+							</tbody>
+						</table>	
+						<div class="row mt-2">
+							<div class="col-3">
+								<button class="btn btn-primary js-reload-qso">Reload QSO list</button>
+							</div>
+							<div class="col-3">
+								<button class="btn btn-warning js-download-adif">Download ADIF</button>
+							</div>
+							<div class="col-4">
+								<button class="btn btn-secondary js-load-sample-log">Load sample log</button>
+							</div>
+						</div>							  
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col">
+						Status:
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<p class="js-status"></p>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade show" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+				<div class="js-band-settings mt-4">
+				</div>													
+			</div>
+			<div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+				<div class="row mt-4">
+					<div class="col">
+						<p>
+							Simple fast log entry written in HTML/Javascript by <a href="https://www.ok2cqr.com">Petr, OK2CQR</a>.
+							Heavily inspired by <a href="https://df3cb.com/fle/">FLE</a> from <a href="https://df3cb.com/">Bernd, DF3CB</a>. 
+							Unfortunately, the FLE works only on Windows and Linux using Wine, but I needed something working on macOS and/or 
+							Android tablet. I&nbsp;didn't need all the features, just wanted to log QSO from my WFF/SOTA/GMA activation. 	
+						</p>
+						
+						<p>
+							The SFLE (Simple fast log entry) is a tool created by GDD (Google Driven Development) using 
+							Bootstrap 4 and jQuery (I'm a backend developer). Data is stored only in your browser. 
+							The website does not collect any data about you.
+						</p>
+						
+						<p>
+							If you find any bug or have a suggestion on how to improve the website, please let me know at <a href="mailto:petr@ok2cqr.com">petr@ok2cqr.com</a>. 
+							I&nbsp;get many emails every day, if you don't get a reply in a few days, don't hesitate to send your email again.  		  	
+						</p>
+						<p>
+							Source code is available on <a href="https://github.com/ok2cqr/sfle">GitHub</a>.
+						</p>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+	<footer class="footer">
+		<div class="container text-center">
+			<span class="text-muted">
+			  Simple fast log entry written in HTML/Javascript by <a href="https://www.ok2cqr.com">Petr, OK2CQR</a>. Source code is available on <a href="https://github.com/ok2cqr/sfle">GitHub</a>.
+			  Heavily inspired by <a href="https://df3cb.com/fle/">FLE</a> from <a href="https://df3cb.com/">Bernd, DF3CB</a>
+			</span>
+		</div>
+	</footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
