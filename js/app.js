@@ -121,7 +121,11 @@ function handleInput() {
         item.match(/^([A-Z]*[F]{2}-\d{4})|([A-Z]*[A-Z]\/[A-Z]{2}-\d{3})$/i)
       ) {
         sotaWff = item.toUpperCase();
-      } else if (item.match(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)) {
+      } else if (
+        item.match(
+          /([a-zA-Z0-9]{1,3}[0123456789][a-zA-Z0-9]{0,3}[a-zA-Z])|.*\/([a-zA-Z0-9]{1,3}[0123456789][a-zA-Z0-9]{0,3}[a-zA-Z])|([a-zA-Z0-9]{1,3}[0123456789][a-zA-Z0-9]{0,3}[a-zA-Z])\/.*/
+        )
+      ) {
         callsign = item.toUpperCase();
       }
     });
