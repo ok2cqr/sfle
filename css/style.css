@@ -7,3 +7,8 @@
   background-color: hsl(0, 0%, 96%);
   font-size: 10px;
 }
+
+.qso-area {
+  font-family: "Courier New", Courier, monospace;
+  font-size: larger;
+}
