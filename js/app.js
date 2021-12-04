@@ -69,7 +69,7 @@ var Bands = {
 var $textarea = $("textarea");
 var qsodate = "";
 if ($("#qsodate").val()) {
-  qsodate = $("#qsodate").val();
+  qsodate = new Date($("#qsodate").val()).toISOString().split("T")[0];
 } else {
   qsodate = new Date().toISOString().split("T")[0];
 }
@@ -88,6 +88,7 @@ function handleInput() {
   var ownCallsign = $("#my-call").val().toUpperCase();
   ownCallsign = ownCallsign.toUpperCase();
 
+  var extraQsoDate = qsodate;
   var band = "";
   var mode = "";
   var freq = "";
@@ -102,7 +103,7 @@ function handleInput() {
     items = row.split(" ");
     items.forEach((item) => {
       if (item.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
-        qsodate = item;
+        extraQsoDate = item;
       } else if (item.match(/^[0-2][0-5][0-5][0-9]$/)) {
         qsotime = item;
       } else if (item.match(/^[1-9]?\d\d[Mm]$/)) {
@@ -144,13 +145,13 @@ function handleInput() {
         addErrorMessage("Time is not set!");
       }
 
-      if (isValidDate(qsodate) === false) {
-        addErrorMessage("Invalid date " + qsodate);
-        qsodate = "";
+      if (isValidDate(extraQsoDate) === false) {
+        addErrorMessage("Invalid date " + extraQsoDate);
+        extraQsoDate = qsodate;
       }
 
       qsoList.push([
-        qsodate,
+        extraQsoDate,
         qsotime,
         callsign,
         freq,
@@ -164,7 +165,7 @@ function handleInput() {
       $("#qsoTable > tbody:last-child").append(
         "<tr>" +
           "<td>" +
-          qsodate +
+          extraQsoDate +
           "</td>" +
           "<td>" +
           qsotime +
