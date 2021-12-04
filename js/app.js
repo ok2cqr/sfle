@@ -68,12 +68,6 @@ var Bands = {
 
 var $textarea = $("textarea");
 var qsodate = "";
-if ($("#qsodate").val()) {
-  qsodate = new Date($("#qsodate").val()).toISOString().split("T")[0];
-} else {
-  qsodate = new Date().toISOString().split("T")[0];
-}
-
 var qsotime = "";
 var band = "";
 var mode = "";
@@ -83,6 +77,13 @@ var errors = [];
 var qsoList = [];
 
 function handleInput() {
+  var qsodate = "";
+  if ($("#qsodate").val()) {
+    qsodate = new Date($("#qsodate").val()).toISOString().split("T")[0];
+  } else {
+    qsodate = new Date().toISOString().split("T")[0];
+  }
+
   var operator = $("#operator").val();
   operator = operator.toUpperCase();
   var ownCallsign = $("#my-call").val().toUpperCase();
