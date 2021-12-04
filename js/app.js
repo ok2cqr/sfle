@@ -436,12 +436,13 @@ Internet: https://sfle.ok2cqr.com
     adif = adif + qso + "\n";
   });
 
+  qsodate = qsoList[0][0].replace("-", "").replace("-", "");
   const filename =
     operator.replace("/", "-") +
     "_" +
     mySotaWwff.replace("/", "-") +
     "_" +
-    qsodate.replace("-", "").replace("-", "") +
+    qsodate +
     ".adi";
   download(filename, adif);
 });
