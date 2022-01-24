@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css?v=202112041504" class="rel">
+    <link rel="stylesheet alternate" href="css/style_dark.min.css" class="rel" title="Dark">
+	<link rel="stylesheet" href="css/style.css?v=202112041504" class="rel">
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -34,6 +35,10 @@
 		<div class="row">
 			<div class="col">
 				<h1>Simple fast log entry</h1>
+				<div class="custom-control custom-switch">
+					<input type="checkbox" class="custom-control-input" id="darkSwitch">
+					<label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+				</div>
 			</div>
 		</div>
 		<ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
@@ -107,7 +112,7 @@
 							<tbody>
 		
 							</tbody>
-						</table>	
+						</table>
 						<div class="row mt-2">
 							<div class="col-3">
 								<button class="btn btn-primary js-reload-qso">Reload QSO list</button>
@@ -120,7 +125,7 @@
 							</div>
 						</div>							  
 					</div>
-				</div>
+					</div>
 				<div class="row mt-4">
 					<div class="col">
 						Status:
