@@ -12,3 +12,22 @@
   font-family: "Courier New", Courier, monospace;
   font-size: larger;
 }
+
+.qsoList{
+  height: 440px;
+}
+
+table {
+  width: 100%;
+}
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  display: inline-table;
+}
+tbody {
+  overflow-y: scroll;
+  max-height: 380px;
+  position: absolute;
+}
