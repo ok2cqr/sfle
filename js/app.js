@@ -195,6 +195,9 @@ function handleInput() {
           "</tr>"
       );
 
+      var rowpos = $('#qsoTable tr:last').position();
+      $('#qsoTableBody').scrollTop(rowpos.top);
+
       callsign = "";
       sotaWff = "";
     }
