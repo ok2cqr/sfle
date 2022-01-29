@@ -105,7 +105,7 @@ function handleInput() {
     items.forEach((item) => {
       if (item.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
         extraQsoDate = item;
-      } else if (item.match(/^[0-2][0-5][0-5][0-9]$/)) {
+      } else if (item.match(/^[0-2][0-9][0-5][0-9]$/)) {
         qsotime = item;
       } else if (item.match(/^[1-9]?\d\d[Mm]$/)) {
         band = item.toUpperCase();
