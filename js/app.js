@@ -158,8 +158,8 @@ function handleInput() {
         freq,
         band,
         mode,
-        "599",
-        "599",
+        getReportByMode(mode),
+        getReportByMode(mode),
         sotaWff,
       ]);
 
@@ -194,6 +194,13 @@ function handleInput() {
           "</td>" +
           "</tr>"
       );
+
+      localStorage.setItem( "tabledata", $("#qsoTable").html() );
+      localStorage.setItem( "my-call", $("#my-call").val() );
+      localStorage.setItem( "operator", $("#operator").val() );
+      localStorage.setItem( "my-sota-wwff", $("#my-sota-wwff").val() );
+      localStorage.setItem( "qso-area", $(".qso-area").val() );
+      localStorage.setItem( "qsodate", $("#qsodate").val() );
 
       var rowpos = $('#qsoTable tr:last').position();
       $('#qsoTableBody').scrollTop(rowpos.top);
@@ -245,6 +252,25 @@ function isValidDate(d) {
 
 $(".js-reload-qso").click(function () {
   handleInput();
+});
+
+$(".js-empty-qso").click(function () {
+  var result = confirm("Do you really want to reset everything?");
+  if (result == true) {
+    localStorage.removeItem("tabledata");
+    localStorage.removeItem( "my-call" );
+    localStorage.removeItem( "operator" );
+    localStorage.removeItem( "my-sota-wwff" );
+    localStorage.removeItem( "qso-area" );
+    localStorage.removeItem( "qsodate" );
+    $("#qsodate").val("");
+    $("#qsoTable tbody").empty();
+    $("#my-sota-wwff").val("");
+    $("#my-call").val("");
+    $("#operator").val("");
+    $(".qso-area").val("");
+    qsoList = [];    
+  }
 });
 
 function showErrors() {
@@ -512,6 +538,38 @@ function setLightTheme() {
 }
 
 $(document).ready(function() {
+  var tabledata  = localStorage.getItem( "tabledata" );
+  var mycall  = localStorage.getItem( "my-call" );
+  var operator  = localStorage.getItem( "operator" );
+  var mysotawwff  = localStorage.getItem( "my-sota-wwff" );
+  var qsoarea = localStorage.getItem( "qso-area" );
+  var qsodate = localStorage.getItem( "qsodate" );
+
+  if (tabledata != null) {
+    $("#qsoTable").html( tabledata );
+    reloadQsoArray();
+  }
+
+  if (mycall != null) {
+    $("#my-call").val(mycall);
+  }
+
+  if (operator != null) {
+    $("#operator").val(operator);
+  }
+
+  if (mysotawwff != null) {
+    $("#my-sota-wwff").val(mysotawwff);
+  }
+
+  if (qsoarea != null) {
+    $(".qso-area").val(qsoarea);
+  }
+
+  if (qsodate != null) {
+    $("#qsodate").val(qsodate);
+  }
+
   //set initial state.
   $('#darkSwitch').val(this.checked);
   $('link[href*="css/style.css"]').prop('disabled', false);
@@ -533,3 +591,48 @@ $(document).ready(function() {
       $('#darkSwitch').val(this.checked);        
   });
 });
+
+function reloadQsoArray() {
+  var extraQsoDate = '';
+  var qsotime = '';
+  var callsign = '';
+  var freq = '';
+  var band = '';
+  var mode = '';
+  var rsts = '';
+  var rstr = '';
+  var sotaWff = '';
+  $("#qsoTable > tbody > tr").each(function () {
+    extraQsoDate = $(this).find('td').eq(0).text();
+    qsotime = $(this).find('td').eq(1).text();
+    callsign = $(this).find('td').eq(2).text();
+    freq = $(this).find('td').eq(3).text();
+    band = $(this).find('td').eq(4).text();
+    mode = $(this).find('td').eq(5).text();
+    rsts = $(this).find('td').eq(6).text();
+    rstr = $(this).find('td').eq(7).text();
+    sotaWff = $(this).find('td').eq(9).text();
+    qsoList.push([
+      extraQsoDate,
+      qsotime,
+      callsign,
+      freq,
+      band,
+      mode,
+      rsts,
+      rstr,
+      sotaWff,
+    ]);
+    extraQsoDate = '';
+    qsotime = '';
+    callsign = '';
+    freq = '';
+    band = '';
+    mode = '';
+    rsts = '';
+    rstr = '';
+    rsts = '';
+    rstr = '';
+    sotaWff = '';
+});
+}
