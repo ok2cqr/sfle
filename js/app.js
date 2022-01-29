@@ -195,15 +195,15 @@ function handleInput() {
           "</tr>"
       );
 
-      localStorage.setItem( "tabledata", $("#qsoTable").html() );
-      localStorage.setItem( "my-call", $("#my-call").val() );
-      localStorage.setItem( "operator", $("#operator").val() );
-      localStorage.setItem( "my-sota-wwff", $("#my-sota-wwff").val() );
-      localStorage.setItem( "qso-area", $(".qso-area").val() );
-      localStorage.setItem( "qsodate", $("#qsodate").val() );
+      localStorage.setItem("tabledata", $("#qsoTable").html());
+      localStorage.setItem("my-call", $("#my-call").val());
+      localStorage.setItem("operator", $("#operator").val());
+      localStorage.setItem("my-sota-wwff", $("#my-sota-wwff").val());
+      localStorage.setItem("qso-area", $(".qso-area").val());
+      localStorage.setItem("qsodate", $("#qsodate").val());
 
-      var rowpos = $('#qsoTable tr:last').position();
-      $('#qsoTableBody').scrollTop(rowpos.top);
+      var rowpos = $("#qsoTable tr:last").position();
+      $("#qsoTableBody").scrollTop(rowpos.top);
 
       callsign = "";
       sotaWff = "";
@@ -258,18 +258,18 @@ $(".js-empty-qso").click(function () {
   var result = confirm("Do you really want to reset everything?");
   if (result == true) {
     localStorage.removeItem("tabledata");
-    localStorage.removeItem( "my-call" );
-    localStorage.removeItem( "operator" );
-    localStorage.removeItem( "my-sota-wwff" );
-    localStorage.removeItem( "qso-area" );
-    localStorage.removeItem( "qsodate" );
+    localStorage.removeItem("my-call");
+    localStorage.removeItem("operator");
+    localStorage.removeItem("my-sota-wwff");
+    localStorage.removeItem("qso-area");
+    localStorage.removeItem("qsodate");
     $("#qsodate").val("");
     $("#qsoTable tbody").empty();
     $("#my-sota-wwff").val("");
     $("#my-call").val("");
     $("#operator").val("");
     $(".qso-area").val("");
-    qsoList = [];    
+    qsoList = [];
   }
 });
 
@@ -367,10 +367,10 @@ for (const [key, value] of Object.entries(Bands)) {
     "\n\n" +
     `
     <div class="row">
-      <div class="col-1">
+      <div class="col-3 mt-4">
         <strong>${key.slice(1)}</strong>
       </div>
-      <div class="col-1">
+      <div class="col-3">
         <div class="form-group">
           <label for="${key.slice(1)}CW">CW</label>
           <input type="text" class="form-control text-uppercase" id="${key.slice(
@@ -378,7 +378,7 @@ for (const [key, value] of Object.entries(Bands)) {
           )}CW" value="${value.cw}">
         </div>							
       </div>
-      <div class="col-1">
+      <div class="col-3">
         <div class="form-group">
           <label for="${key.slice(1)}SSB">SSB</label>
           <input type="text" class="form-control text-uppercase" id="${key.slice(
@@ -386,7 +386,7 @@ for (const [key, value] of Object.entries(Bands)) {
           )}SSB" value="${value.ssb}">
         </div>							
       </div>
-      <div class="col-1">
+      <div class="col-3">
         <div class="form-group">
           <label for="${key.slice(1)}DIGI">DIGI</label>
           <input type="text" class="form-control text-uppercase" id="${key.slice(
@@ -522,31 +522,31 @@ function download(filename, text) {
 }
 
 function setDarkTheme() {
-  $('link[href*="bootstrap.min.css"]').prop('disabled', true);
-  $('link[href*="css/style.css"]').prop('disabled', true);
-  $('link[href*="css/style_dark.min.css"]').prop('disabled', false);
+  $('link[href*="bootstrap.min.css"]').prop("disabled", true);
+  $('link[href*="css/style.css"]').prop("disabled", true);
+  $('link[href*="css/style_dark.min.css"]').prop("disabled", false);
   localStorage.setItem("theme", "dark");
-  $('#darkSwitch').prop('checked', true);      
+  $("#darkSwitch").prop("checked", true);
 }
 
 function setLightTheme() {
-  $('link[href*="css/style.css"]').prop('disabled', false);
-  $('link[href*="bootstrap.min.css"]').prop('disabled', false);
-  $('link[href*="css/style_dark.min.css"]').prop('disabled', true); 
+  $('link[href*="css/style.css"]').prop("disabled", false);
+  $('link[href*="bootstrap.min.css"]').prop("disabled", false);
+  $('link[href*="css/style_dark.min.css"]').prop("disabled", true);
   localStorage.setItem("theme", "light");
-  $('#darkSwitch').prop('checked', false);      
+  $("#darkSwitch").prop("checked", false);
 }
 
-$(document).ready(function() {
-  var tabledata  = localStorage.getItem( "tabledata" );
-  var mycall  = localStorage.getItem( "my-call" );
-  var operator  = localStorage.getItem( "operator" );
-  var mysotawwff  = localStorage.getItem( "my-sota-wwff" );
-  var qsoarea = localStorage.getItem( "qso-area" );
-  var qsodate = localStorage.getItem( "qsodate" );
+$(document).ready(function () {
+  var tabledata = localStorage.getItem("tabledata");
+  var mycall = localStorage.getItem("my-call");
+  var operator = localStorage.getItem("operator");
+  var mysotawwff = localStorage.getItem("my-sota-wwff");
+  var qsoarea = localStorage.getItem("qso-area");
+  var qsodate = localStorage.getItem("qsodate");
 
   if (tabledata != null) {
-    $("#qsoTable").html( tabledata );
+    $("#qsoTable").html(tabledata);
     reloadQsoArray();
   }
 
@@ -571,47 +571,47 @@ $(document).ready(function() {
   }
 
   //set initial state.
-  $('#darkSwitch').val(this.checked);
-  $('link[href*="css/style.css"]').prop('disabled', false);
-  $('link[href*="bootstrap.min.css"]').prop('disabled', false);
-  $('link[href*="css/style_dark.min.css"]').prop('disabled', true); 
-  
+  $("#darkSwitch").val(this.checked);
+  $('link[href*="css/style.css"]').prop("disabled", false);
+  $('link[href*="bootstrap.min.css"]').prop("disabled", false);
+  $('link[href*="css/style_dark.min.css"]').prop("disabled", true);
+
   //did we store theme?
   var theme = localStorage.getItem("theme");
   if (theme == "dark") {
-      setDarkTheme();
+    setDarkTheme();
   }
 
-  $('#darkSwitch').change(function() {
-      if(this.checked) {
-          setDarkTheme();
-      } else {
-          setLightTheme();
-      }
-      $('#darkSwitch').val(this.checked);        
+  $("#darkSwitch").change(function () {
+    if (this.checked) {
+      setDarkTheme();
+    } else {
+      setLightTheme();
+    }
+    $("#darkSwitch").val(this.checked);
   });
 });
 
 function reloadQsoArray() {
-  var extraQsoDate = '';
-  var qsotime = '';
-  var callsign = '';
-  var freq = '';
-  var band = '';
-  var mode = '';
-  var rsts = '';
-  var rstr = '';
-  var sotaWff = '';
+  var extraQsoDate = "";
+  var qsotime = "";
+  var callsign = "";
+  var freq = "";
+  var band = "";
+  var mode = "";
+  var rsts = "";
+  var rstr = "";
+  var sotaWff = "";
   $("#qsoTable > tbody > tr").each(function () {
-    extraQsoDate = $(this).find('td').eq(0).text();
-    qsotime = $(this).find('td').eq(1).text();
-    callsign = $(this).find('td').eq(2).text();
-    freq = $(this).find('td').eq(3).text();
-    band = $(this).find('td').eq(4).text();
-    mode = $(this).find('td').eq(5).text();
-    rsts = $(this).find('td').eq(6).text();
-    rstr = $(this).find('td').eq(7).text();
-    sotaWff = $(this).find('td').eq(9).text();
+    extraQsoDate = $(this).find("td").eq(0).text();
+    qsotime = $(this).find("td").eq(1).text();
+    callsign = $(this).find("td").eq(2).text();
+    freq = $(this).find("td").eq(3).text();
+    band = $(this).find("td").eq(4).text();
+    mode = $(this).find("td").eq(5).text();
+    rsts = $(this).find("td").eq(6).text();
+    rstr = $(this).find("td").eq(7).text();
+    sotaWff = $(this).find("td").eq(9).text();
     qsoList.push([
       extraQsoDate,
       qsotime,
@@ -623,16 +623,16 @@ function reloadQsoArray() {
       rstr,
       sotaWff,
     ]);
-    extraQsoDate = '';
-    qsotime = '';
-    callsign = '';
-    freq = '';
-    band = '';
-    mode = '';
-    rsts = '';
-    rstr = '';
-    rsts = '';
-    rstr = '';
-    sotaWff = '';
-});
+    extraQsoDate = "";
+    qsotime = "";
+    callsign = "";
+    freq = "";
+    band = "";
+    mode = "";
+    rsts = "";
+    rstr = "";
+    rsts = "";
+    rstr = "";
+    sotaWff = "";
+  });
 }
