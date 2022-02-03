@@ -212,6 +212,13 @@ function handleInput() {
     showErrors();
   });
 
+  var qsoCount = qsoList.length;
+  if (qsoCount) {
+    $(".js-qso-count").html("<strong>Total:</strong> " + qsoCount + " QSO");
+  } else {
+    $(".js-qso-count").html("");
+  }
+
   if (errors) {
     $(".js-status").html(errors.join("<br>"));
   }
@@ -270,6 +277,7 @@ $(".js-empty-qso").click(function () {
     $("#operator").val("");
     $(".qso-area").val("");
     qsoList = [];
+    $(".js-qso-count").html("");
   }
 });
 
@@ -545,11 +553,6 @@ $(document).ready(function () {
   var qsoarea = localStorage.getItem("qso-area");
   var qsodate = localStorage.getItem("qsodate");
 
-  if (tabledata != null) {
-    $("#qsoTable").html(tabledata);
-    reloadQsoArray();
-  }
-
   if (mycall != null) {
     $("#my-call").val(mycall);
   }
@@ -590,49 +593,9 @@ $(document).ready(function () {
     }
     $("#darkSwitch").val(this.checked);
   });
-});
 
-function reloadQsoArray() {
-  var extraQsoDate = "";
-  var qsotime = "";
-  var callsign = "";
-  var freq = "";
-  var band = "";
-  var mode = "";
-  var rsts = "";
-  var rstr = "";
-  var sotaWff = "";
-  $("#qsoTable > tbody > tr").each(function () {
-    extraQsoDate = $(this).find("td").eq(0).text();
-    qsotime = $(this).find("td").eq(1).text();
-    callsign = $(this).find("td").eq(2).text();
-    freq = $(this).find("td").eq(3).text();
-    band = $(this).find("td").eq(4).text();
-    mode = $(this).find("td").eq(5).text();
-    rsts = $(this).find("td").eq(6).text();
-    rstr = $(this).find("td").eq(7).text();
-    sotaWff = $(this).find("td").eq(9).text();
-    qsoList.push([
-      extraQsoDate,
-      qsotime,
-      callsign,
-      freq,
-      band,
-      mode,
-      rsts,
-      rstr,
-      sotaWff,
-    ]);
-    extraQsoDate = "";
-    qsotime = "";
-    callsign = "";
-    freq = "";
-    band = "";
-    mode = "";
-    rsts = "";
-    rstr = "";
-    rsts = "";
-    rstr = "";
-    sotaWff = "";
-  });
-}
+  if (tabledata != null) {
+    $("#qsoTable").html(tabledata);
+    handleInput();
+  }
+});
