@@ -101,11 +101,17 @@ function handleInput() {
   var text = $textarea.val().trim();
   lines = text.split("\n");
   lines.forEach((row) => {
+    var rst_s = null;
+    var rst_r = null;
     items = row.split(" ");
+    var itemNumber = 0;
     items.forEach((item) => {
+      if (item === '') {
+        return;
+      }
       if (item.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
         extraQsoDate = item;
-      } else if (item.match(/^[0-2][0-9][0-5][0-9]$/)) {
+      } else if ((item.match(/^[0-2][0-9][0-5][0-9]$/) && itemNumber === 0)) {
         qsotime = item;
       } else if (item.match(/^[1-9]?\d\d[Mm]$/)) {
         band = item.toUpperCase();
@@ -115,9 +121,9 @@ function handleInput() {
       } else if (item.match(/^\d+\.\d+$/)) {
         freq = item;
         band = getBandFromFreq(freq);
-      } else if (item.match(/^[1-9]{1}$/) && qsotime) {
+      } else if (item.match(/^[1-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.replace(/.$/, item);
-      } else if (item.match(/^[0-5][0-9]{1}$/) && qsotime) {
+      } else if (item.match(/^[0-5][0-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.slice(0, -2) + item;
       } else if (
         item.match(/^([A-Z]*[F]{2}-\d{4})|([A-Z]*[A-Z]\/[A-Z]{2}-\d{3})$/i)
@@ -129,7 +135,16 @@ function handleInput() {
         )
       ) {
         callsign = item.toUpperCase();
+      } else if ((itemNumber > 0) && (item.match(/^\d{1,2}$/))) {
+
+        if (rst_s === null) {
+          rst_s = item;
+        } else {
+          rst_r = item;
+        }  
       }
+
+      itemNumber = itemNumber + 1;
     });
 
     errors = [];
@@ -151,6 +166,9 @@ function handleInput() {
         extraQsoDate = qsodate;
       }
 
+      rst_s = getReportByMode(rst_s, mode);
+      rst_r = getReportByMode(rst_r, mode);
+
       qsoList.push([
         extraQsoDate,
         qsotime,
@@ -158,8 +176,8 @@ function handleInput() {
         freq,
         band,
         mode,
-        getReportByMode(mode),
-        getReportByMode(mode),
+        rst_s,
+        rst_r,
         sotaWff,
       ]);
 
@@ -181,10 +199,10 @@ function handleInput() {
           mode +
           "</td>" +
           "<td>" +
-          getReportByMode(mode) +
+          rst_s +
           "</td>" +
           "<td>" +
-          getReportByMode(mode) +
+          rst_r +
           "</td>" +
           "<td>" +
           operator +
@@ -210,7 +228,7 @@ function handleInput() {
     }
 
     showErrors();
-  });
+  }); //lines.forEach((row) 
 
   var qsoCount = qsoList.length;
   if (qsoCount) {
@@ -297,11 +315,11 @@ $(".js-load-sample-log").click(function () {
 1212 ok1uu okff-1234
 3 ok1rr
 4 ok1tn
-20 dl6kva
-5 dj1yfk
+20 dl6kva 7 8
+5 dl5cw 
 ssb
-32 ok7wa ol/zl-071
-33 ok1xxx  
+32 ok7wa ol/zl-071 5 8
+33 ok1xxx  4 3
   `;
 
   $textarea.val(logData.trim());
@@ -488,13 +506,32 @@ function getAdifTag(tagName, value) {
   return "<" + tagName + ":" + value.length + ">" + value + " ";
 }
 
-function getReportByMode(mode) {
+function getReportByMode(rst, mode) {
   settingsMode = getSettingsMode(mode);
+
+  if (rst === null) {
+    if (settingsMode === "SSB") {
+      return "59";
+    }
+
+    return "599";
+  } 
+
   if (settingsMode === "SSB") {
-    return "59";
+    if (rst.length === 1) {
+      return '5' + rst;
+    } 
+    
+    return rst;
+  }
+  
+  if (rst.length === 1) {
+    return '5' + rst + '9';
+  } else if (rst.length === 2) {
+    return rst + '9';
   }
 
-  return "599";
+  return rst;
 }
 
 function isSOTA(value) {
