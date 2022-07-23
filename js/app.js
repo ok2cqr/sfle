@@ -219,6 +219,8 @@ function handleInput() {
       localStorage.setItem("my-sota-wwff", $("#my-sota-wwff").val());
       localStorage.setItem("qso-area", $(".qso-area").val());
       localStorage.setItem("qsodate", $("#qsodate").val());
+      localStorage.setItem("my-power", $("#my-power").val());
+      localStorage.setItem("my-grid", $("#my-grid").val());
 
       var rowpos = $("#qsoTable tr:last").position();
       $("#qsoTableBody").scrollTop(rowpos.top);
@@ -288,12 +290,14 @@ $(".js-empty-qso").click(function () {
     localStorage.removeItem("my-sota-wwff");
     localStorage.removeItem("qso-area");
     localStorage.removeItem("qsodate");
+    localStorage.removeItem("my-grid");
     $("#qsodate").val("");
     $("#qsoTable tbody").empty();
     $("#my-sota-wwff").val("");
     $("#my-call").val("");
     $("#operator").val("");
     $(".qso-area").val("");
+    $("#my-grid").val("");
     qsoList = [];
     $(".js-qso-count").html("");
   }
@@ -433,6 +437,9 @@ $(".js-download-adif").click(function () {
   ownCallsign = ownCallsign.toUpperCase();
   var mySotaWwff = $("#my-sota-wwff").val().toUpperCase();
 
+  var myPower =  $("#my-power").val();
+  var myGrid = $("#my-grid").val().toUpperCase();
+
   const adifHeader = `
 ADIF export from Simple fast log entry by Petr, OK2CQR
 
@@ -484,6 +491,14 @@ Internet: https://sfle.ok2cqr.com
     } else if (isWWFF(item[8])) {
       qso = qso + getAdifTag("SIG", "WWFF");
       qso = qso + getAdifTag("SIG_INFO", item[8]);
+    }
+    
+    if (myPower) {
+      qso = qso + getAdifTag("TX_PWR", myPower);
+    }
+
+    if (myGrid) {
+      qso = qso + getAdifTag("MY_GRIDSQUARE", myGrid);
     }
 
     qso = qso + "<EOR>";
@@ -589,6 +604,8 @@ $(document).ready(function () {
   var mysotawwff = localStorage.getItem("my-sota-wwff");
   var qsoarea = localStorage.getItem("qso-area");
   var qsodate = localStorage.getItem("qsodate");
+  var myPower = localStorage.getItem("my-power");
+  var myGrid = localStorage.getItem("my-grid");
 
   if (mycall != null) {
     $("#my-call").val(mycall);
@@ -608,6 +625,14 @@ $(document).ready(function () {
 
   if (qsodate != null) {
     $("#qsodate").val(qsodate);
+  }
+
+  if (myPower != null) {
+    $("#my-power").val(myPower);
+  }
+
+  if (myGrid != null) {
+    $("#my-grid").val(myGrid);
   }
 
   //set initial state.
