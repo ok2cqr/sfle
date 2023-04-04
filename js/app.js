@@ -561,22 +561,6 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
-function setDarkTheme() {
-  $('link[href*="bootstrap.min.css"]').prop("disabled", true);
-  $('link[href*="css/style.css"]').prop("disabled", true);
-  $('link[href*="css/style_dark.min.css"]').prop("disabled", false);
-  localStorage.setItem("theme", "dark");
-  $("#darkSwitch").prop("checked", true);
-}
-
-function setLightTheme() {
-  $('link[href*="css/style.css"]').prop("disabled", false);
-  $('link[href*="bootstrap.min.css"]').prop("disabled", false);
-  $('link[href*="css/style_dark.min.css"]').prop("disabled", true);
-  localStorage.setItem("theme", "light");
-  $("#darkSwitch").prop("checked", false);
-}
-
 $(document).ready(function () {
   var tabledata = localStorage.getItem("tabledata");
   var mycall = localStorage.getItem("my-call");
@@ -614,27 +598,6 @@ $(document).ready(function () {
   if (myGrid != null) {
     $("#my-grid").val(myGrid);
   }
-
-  //set initial state.
-  $("#darkSwitch").val(this.checked);
-  $('link[href*="css/style.css"]').prop("disabled", false);
-  $('link[href*="bootstrap.min.css"]').prop("disabled", false);
-  $('link[href*="css/style_dark.min.css"]').prop("disabled", true);
-
-  //did we store theme?
-  var theme = localStorage.getItem("theme");
-  if (theme == "dark") {
-    setDarkTheme();
-  }
-
-  $("#darkSwitch").change(function () {
-    if (this.checked) {
-      setDarkTheme();
-    } else {
-      setLightTheme();
-    }
-    $("#darkSwitch").val(this.checked);
-  });
 
   if (tabledata != null) {
     $("#qsoTable").html(tabledata);
