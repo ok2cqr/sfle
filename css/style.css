@@ -21,6 +21,10 @@ body {
   padding-bottom: 8px;
 }
 
+[data-bs-theme="dark"] .footer {
+  background-color: hsl(0, 0%, 10%);
+}
+
 .qso-area {
   font-family: "Courier New", Courier, monospace;
   font-size: larger;
