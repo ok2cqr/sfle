@@ -181,37 +181,19 @@ function handleInput() {
         sotaWff,
       ]);
 
-      $("#qsoTable > tbody:last-child").append(
-        "<tr>" +
-          "<td>" +
-          extraQsoDate +
-          "</td>" +
-          "<td>" +
-          qsotime +
-          "</td>" +
-          "<td>" +
-          callsign +
-          "</td>" +
-          "<td>" +
-          band +
-          "</td>" +
-          "<td>" +
-          mode +
-          "</td>" +
-          "<td>" +
-          rst_s +
-          "</td>" +
-          "<td>" +
-          rst_r +
-          "</td>" +
-          "<td>" +
-          operator +
-          "</td>" +
-          "<td>" +
-          sotaWff +
-          "</td>" +
-          "</tr>"
-      );
+      const tableRow = $(`<tr>
+        <td>${extraQsoDate}</td>
+        <td>${qsotime}</td>
+        <td>${callsign}</td>
+        <td>${band}</td>
+        <td>${mode}</td>
+        <td>${rst_s}</td>
+        <td>${rst_r}</td>
+        <td>${operator}</td>
+        <td>${sotaWff}</td>
+      </tr>`);
+
+      $("#qsoTable > tbody:last-child").append(tableRow);
 
       localStorage.setItem("tabledata", $("#qsoTable").html());
       localStorage.setItem("my-call", $("#my-call").val());
@@ -222,15 +204,15 @@ function handleInput() {
       localStorage.setItem("my-power", $("#my-power").val());
       localStorage.setItem("my-grid", $("#my-grid").val());
 
-      var rowpos = $("#qsoTable tr:last").position();
-      $("#qsoTableBody").scrollTop(rowpos.top);
-
       callsign = "";
       sotaWff = "";
     }
 
     showErrors();
-  }); //lines.forEach((row) 
+  }); //lines.forEach((row)   
+
+  // Scroll to the bototm of #qsoTableBody (scroll by the value of its scrollheight property)
+  $("#qsoTableBody").scrollTop($('#qsoTableBody').get(0).scrollHeight);
 
   var qsoCount = qsoList.length;
   if (qsoCount) {
@@ -392,10 +374,8 @@ function getSettingsMode(mode) {
 
 var htmlSettings = "";
 for (const [key, value] of Object.entries(Bands)) {
-  htmlSettings =
-    htmlSettings +
-    "\n\n" +
-    `
+  htmlSettings = `
+    ${htmlSettings}
     <div class="row">
       <div class="col-3 mt-4">
         <strong>${key.slice(1)}</strong>
