@@ -185,7 +185,7 @@ function handleInput() {
         <td>${extraQsoDate}</td>
         <td>${qsotime}</td>
         <td>${callsign}</td>
-        <td>${band}</td>
+        <td><span data-toggle="tooltip" data-placement="left" title="${freq}">${band}</span></td>
         <td>${mode}</td>
         <td>${rst_s}</td>
         <td>${rst_r}</td>
