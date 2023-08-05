@@ -113,14 +113,14 @@ function handleInput() {
         extraQsoDate = item;
       } else if ((item.match(/^[0-2][0-9][0-5][0-9]$/) && itemNumber === 0)) {
         qsotime = item;
-      } else if (item.match(/^[1-9]?\d\d[Mm]$/)) {
-        band = item.toUpperCase();
-        freq = getFreqFromBand(band, mode);
       } else if (item.match(/^CW$|^SSB$|^FM$|^AM$|^PSK$|^FT8$/i)) {
         mode = item.toUpperCase();
+      } else if (item.match(/^[1-9]?\d\d[Mm]$/)) {
+        band = item.toUpperCase();
+        freq = 0;
       } else if (item.match(/^\d+\.\d+$/)) {
         freq = item;
-        band = getBandFromFreq(freq);
+        band = '';
       } else if (item.match(/^[1-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.replace(/.$/, item);
       } else if (item.match(/^[0-5][0-9]{1}$/) && qsotime && itemNumber === 0) {
@@ -151,6 +151,13 @@ function handleInput() {
     checkMainFieldsErrors();
 
     if (callsign) {
+      if (freq === 0) {
+        freq = getFreqFromBand(band, mode);
+      } else if (band === '') {
+        console.log(freq);
+        band = getBandFromFreq(freq);
+      }
+
       if (band === "") {
         addErrorMessage("Band is missing!");
       }
@@ -330,7 +337,7 @@ function getBandFromFreq(freq) {
   } else if (freq > 6.9 && freq < 7.3) {
     return "40M";
   } else if (freq > 5 && freq < 6) {
-    return "30M";
+    return "60M";
   } else if (freq > 10 && freq < 11) {
     return "30M";
   } else if (freq > 13 && freq < 15) {
@@ -350,6 +357,8 @@ function getBandFromFreq(freq) {
   } else if (freq > 430 && freq < 460) {
     return "70CM";
   }
+
+  return '';
 }
 
 function getFreqFromBand(band, mode) {
@@ -365,11 +374,11 @@ function getSettingsMode(mode) {
     return "SSB";
   }
 
-  if (mode !== "CW") {
-    return "DIGI";
+  if (mode === "CW") {
+    return "CW"
   }
 
-  return "CW";
+  return "DIGI";
 }
 
 var htmlSettings = "";
