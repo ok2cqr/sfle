@@ -302,6 +302,11 @@ $(".js-download-qso").click(function () {
 });
 
 $(".js-load-sample-log").click(function () {
+  if ($textarea.val()) {
+    if (false ===confirm("Do you really want to replace the entered data with the sample log?")) {
+      return false;
+    }
+  }
   const logData = `
 80m cw
 1212 ok1uu okff-1234
