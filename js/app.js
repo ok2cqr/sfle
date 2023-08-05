@@ -154,7 +154,6 @@ function handleInput() {
       if (freq === 0) {
         freq = getFreqFromBand(band, mode);
       } else if (band === '') {
-        console.log(freq);
         band = getBandFromFreq(freq);
       }
 
@@ -441,6 +440,12 @@ Internet: https://sfle.ok2cqr.com
 
 `;
 
+  if (false === isBandModeEntered()) {
+    alert("Some QSO do not have band and/or mode defined!");
+
+    return false;
+  }
+
   var adif = adifHeader;
   qsoList.forEach((item) => {
     const qsodate = item[0].replace("-", "").replace("-", "");
@@ -505,6 +510,18 @@ Internet: https://sfle.ok2cqr.com
     ".adi";
   download(filename, adif);
 });
+
+function isBandModeEntered()
+{
+  let isBandModeOK = true;
+  qsoList.forEach((item) => {
+    if ((item[4] === '') || (item[5] === '')) {
+      isBandModeOK = false;
+    }
+  });
+
+  return isBandModeOK;
+}
 
 function getAdifTag(tagName, value) {
   return "<" + tagName + ":" + value.length + ">" + value + " ";
