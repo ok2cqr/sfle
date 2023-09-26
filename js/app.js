@@ -115,7 +115,7 @@ function handleInput() {
         qsotime = item;
       } else if (item.match(/^CW$|^SSB$|^FM$|^AM$|^PSK$|^FT8$/i)) {
         mode = item.toUpperCase();
-      } else if (item.match(/^[1-9]?\d\d[Mm]$/)) {
+      } else if (item.match(/^[1-9]?\d\d[Mm]$/) || item.toUpperCase() === '70CM') {
         band = item.toUpperCase();
         freq = 0;
       } else if (item.match(/^\d+\.\d+$/)) {
