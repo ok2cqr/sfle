@@ -103,30 +103,43 @@ function handleInput() {
   lines.forEach((row) => {
     var rst_s = null;
     var rst_r = null;
-    items = row.split(" ");
+    items = row.startsWith("day ") ? [row] : row.split(" ");
     var itemNumber = 0;
     items.forEach((item) => {
-      if (item === '') {
+      if (item === "") {
         return;
       }
-      if (item.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
+      if (item.trim().match(/^day (\+)+$/)) {
+        var plusCount = item.match(/\+/g).length;
+        var originalDate = new Date(extraQsoDate);
+        console.log(plusCount);
+        originalDate.setDate(originalDate.getDate() + plusCount);
+        extraQsoDate = originalDate.toISOString().split("T")[0];
+      } else if (
+        item.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)
+      ) {
         extraQsoDate = item;
-      } else if ((item.match(/^[0-2][0-9][0-5][0-9]$/) && itemNumber === 0)) {
+      } else if (item.match(/^[0-2][0-9][0-5][0-9]$/)) {
         qsotime = item;
       } else if (item.match(/^CW$|^SSB$|^FM$|^AM$|^PSK$|^FT8$/i)) {
         mode = item.toUpperCase();
-      } else if (item.match(/^[1-9]?\d\d[Mm]$/) || item.toUpperCase() === '70CM') {
+      } else if (
+        item.match(/^[1-9]?\d\d[Mm]$/) ||
+        item.toUpperCase() === "70CM"
+      ) {
         band = item.toUpperCase();
         freq = 0;
       } else if (item.match(/^\d+\.\d+$/)) {
         freq = item;
-        band = '';
+        band = "";
       } else if (item.match(/^[1-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.replace(/.$/, item);
       } else if (item.match(/^[0-5][0-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.slice(0, -2) + item;
       } else if (
-        item.match(/^([A-Z]*[F]{2}-\d{4})|([A-Z]*[A-Z]\/[A-Z]{2}-\d{3})$/i)
+        item.match(
+			/^[A-Z0-9]{1,3}\/[A-Z]{2}-\d{3}|[AENOS]*[FNSUACA]-\d{3}|(?!.*FF)[A-Z0-9]{1,3}-\d{4}|[A-Z0-9]{1,3}[F]{2}-\d{4}$/i
+        )
       ) {
         sotaWff = item.toUpperCase();
       } else if (
@@ -135,13 +148,12 @@ function handleInput() {
         )
       ) {
         callsign = item.toUpperCase();
-      } else if ((itemNumber > 0) && (item.match(/^\d{1,2}$/))) {
-
+      } else if (itemNumber > 0 && item.match(/^\d{1,3}$/)) {
         if (rst_s === null) {
           rst_s = item;
         } else {
           rst_r = item;
-        }  
+        }
       }
 
       itemNumber = itemNumber + 1;
@@ -153,7 +165,7 @@ function handleInput() {
     if (callsign) {
       if (freq === 0) {
         freq = getFreqFromBand(band, mode);
-      } else if (band === '') {
+      } else if (band === "") {
         band = getBandFromFreq(freq);
       }
 
@@ -188,16 +200,16 @@ function handleInput() {
       ]);
 
       const tableRow = $(`<tr>
-        <td>${extraQsoDate}</td>
-        <td>${qsotime}</td>
-        <td>${callsign}</td>
-        <td><span data-toggle="tooltip" data-placement="left" title="${freq}">${band}</span></td>
-        <td>${mode}</td>
-        <td>${rst_s}</td>
-        <td>${rst_r}</td>
-        <td>${operator}</td>
-        <td>${sotaWff}</td>
-      </tr>`);
+          <td>${extraQsoDate}</td>
+          <td>${qsotime}</td>
+          <td>${callsign}</td>
+          <td><span data-toggle="tooltip" data-placement="left" title="${freq}">${band}</span></td>
+          <td>${mode}</td>
+          <td>${rst_s}</td>
+          <td>${rst_r}</td>
+          <td>${operator}</td>
+          <td>${sotaWff}</td>
+        </tr>`);
 
       $("#qsoTable > tbody:last-child").append(tableRow);
 
@@ -215,10 +227,10 @@ function handleInput() {
     }
 
     showErrors();
-  }); //lines.forEach((row)   
+  }); //lines.forEach((row)
 
   // Scroll to the bototm of #qsoTableBody (scroll by the value of its scrollheight property)
-  $("#qsoTableBody").scrollTop($('#qsoTableBody').get(0).scrollHeight);
+  $("#qsoTableBody").scrollTop($("#qsoTableBody").get(0).scrollHeight);
 
   var qsoCount = qsoList.length;
   if (qsoCount) {
@@ -303,7 +315,12 @@ $(".js-download-qso").click(function () {
 
 $(".js-load-sample-log").click(function () {
   if ($textarea.val()) {
-    if (false ===confirm("Do you really want to replace the entered data with the sample log?")) {
+    if (
+      false ===
+      confirm(
+        "Do you really want to replace the entered data with the sample log?"
+      )
+    ) {
       return false;
     }
   }
@@ -362,7 +379,7 @@ function getBandFromFreq(freq) {
     return "70CM";
   }
 
-  return '';
+  return "";
 }
 
 function getFreqFromBand(band, mode) {
@@ -379,7 +396,7 @@ function getSettingsMode(mode) {
   }
 
   if (mode === "CW") {
-    return "CW"
+    return "CW";
   }
 
   return "DIGI";
@@ -388,38 +405,38 @@ function getSettingsMode(mode) {
 var htmlSettings = "";
 for (const [key, value] of Object.entries(Bands)) {
   htmlSettings = `
-    ${htmlSettings}
-    <div class="row">
-      <div class="col-3 mt-4">
-        <strong>${key.slice(1)}</strong>
-      </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label for="${key.slice(1)}CW">CW</label>
-          <input type="text" class="form-control text-uppercase" id="${key.slice(
-            1
-          )}CW" value="${value.cw}">
-        </div>							
-      </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label for="${key.slice(1)}SSB">SSB</label>
-          <input type="text" class="form-control text-uppercase" id="${key.slice(
-            1
-          )}SSB" value="${value.ssb}">
-        </div>							
-      </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label for="${key.slice(1)}DIGI">DIGI</label>
-          <input type="text" class="form-control text-uppercase" id="${key.slice(
-            1
-          )}DIGI" value="${value.digi}">
-        </div>							
-      </div>
+      ${htmlSettings}
+      <div class="row">
+        <div class="col-3 mt-4">
+          <strong>${key.slice(1)}</strong>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="${key.slice(1)}CW">CW</label>
+            <input type="text" class="form-control text-uppercase" id="${key.slice(
+              1
+            )}CW" value="${value.cw}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="${key.slice(1)}SSB">SSB</label>
+            <input type="text" class="form-control text-uppercase" id="${key.slice(
+              1
+            )}SSB" value="${value.ssb}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="${key.slice(1)}DIGI">DIGI</label>
+            <input type="text" class="form-control text-uppercase" id="${key.slice(
+              1
+            )}DIGI" value="${value.digi}">
+          </div>
+        </div>
 
-    </div>
-  `;
+      </div>
+    `;
 }
 $(".js-band-settings").html(htmlSettings);
 
@@ -430,7 +447,7 @@ $(".js-download-adif").click(function () {
   ownCallsign = ownCallsign.toUpperCase();
   var mySotaWwff = $("#my-sota-wwff").val().toUpperCase();
 
-  var myPower =  $("#my-power").val();
+  var myPower = $("#my-power").val();
   var myGrid = $("#my-grid").val().toUpperCase();
 
   const adifHeader = `
@@ -480,18 +497,24 @@ Internet: https://sfle.ok2cqr.com
 
     if (isSOTA(mySotaWwff)) {
       qso = qso + getAdifTag("MY_SOTA_REF", mySotaWwff);
+	} else if (isIOTA(mySotaWwff)) {
+		qso = qso + getAdifTag("MY_IOTA", mySotaWwff);
+	} else if (isPOTA(mySotaWwff)) {
+		qso = qso + getAdifTag("MY_POTA_REF", mySotaWwff);
     } else if (isWWFF(mySotaWwff)) {
-      qso = qso + getAdifTag("MY_SIG", "WWFF");
-      qso = qso + getAdifTag("MY_SIG_INFO", mySotaWwff);
+      qso = qso + getAdifTag("MY_WWFF_REF", mySotaWwff);
     }
 
     if (isSOTA(item[8])) {
       qso = qso + getAdifTag("SOTA_REF", item[8]);
+	} else if (isIOTA(item[8])) {
+		qso = qso + getAdifTag("IOTA", item[8]);
+	} else if (isPOTA(item[8])) {
+		qso = qso + getAdifTag("POTA_REF", item[8]);
     } else if (isWWFF(item[8])) {
-      qso = qso + getAdifTag("SIG", "WWFF");
-      qso = qso + getAdifTag("SIG_INFO", item[8]);
+      qso = qso + getAdifTag("WWFF_REF", item[8]);
     }
-    
+
     if (myPower) {
       qso = qso + getAdifTag("TX_PWR", myPower);
     }
@@ -516,11 +539,10 @@ Internet: https://sfle.ok2cqr.com
   download(filename, adif);
 });
 
-function isBandModeEntered()
-{
+function isBandModeEntered() {
   let isBandModeOK = true;
   qsoList.forEach((item) => {
-    if ((item[4] === '') || (item[5] === '')) {
+    if (item[4] === "" || item[5] === "") {
       isBandModeOK = false;
     }
   });
@@ -541,35 +563,50 @@ function getReportByMode(rst, mode) {
     }
 
     return "599";
-  } 
+  }
 
   if (settingsMode === "SSB") {
     if (rst.length === 1) {
-      return '5' + rst;
-    } 
-    
+      return "5" + rst;
+    }
+    if (rst.length === 3) {
+      return rst.slice(0, 2);
+    }
+
     return rst;
   }
-  
+
   if (rst.length === 1) {
-    return '5' + rst + '9';
+    return "5" + rst + "9";
   } else if (rst.length === 2) {
-    return rst + '9';
+    return rst + "9";
   }
 
   return rst;
 }
 
 function isSOTA(value) {
-  if (value.match(/^[A-Z]*[A-Z]\/[A-Z]{2}-\d{3}$/)) {
+  if (value.match(/^[A-Z0-9]{1,3}\/[A-Z]{2}-\d{3}$/)) {
     return true;
   }
 
   return false;
 }
 
+function isIOTA(value) {
+  if (value.match(/^[AENOS]*[FNSUACA]-\d{3}$/)) {
+    return true;
+  }
+}
+
+function isPOTA(value) {
+  if (value.match(/^(?!.*FF)[A-Z0-9]{1,3}-\d{4}$/)) {
+    return true;
+  }
+}
+
 function isWWFF(value) {
-  if (value.match(/^[A-Z]*[F]{2}-\d{4}$/)) {
+  if (value.match(/^[A-Z0-9]{1,3}[F]{2}-\d{4}$/)) {
     return true;
   }
 
