@@ -592,6 +592,43 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
+function loadPowerSettings() {
+  myPower = localStorage.getItem('my-power');
+
+  let element = document.getElementsByClassName('js-power');
+  if (myPower) {
+    element[0].innerHTML = 'Power: ' + myPower + 'W &nbsp;&nbsp;&nbsp;&nbsp;';  
+  } else {
+    element[0].innerHTML = '';
+  }
+
+  document.getElementById('my-power').value = myPower;
+}
+
+function loadMyGridSettings () {
+  myGrid = localStorage.getItem('my-grid');
+
+  let element = document.getElementsByClassName('js-my-grid');
+  if (myGrid) {
+    element[0].innerHTML = 'My grid: ' + myGrid.toUpperCase();  
+  } else {
+    element[0].innerHTML = '';
+  }
+
+  document.getElementById('my-grid').value = myGrid;
+}
+
+document.getElementById('my-power').onchange = function() {
+  localStorage.setItem('my-power', this.value);
+  loadPowerSettings();
+};
+
+document.getElementById('my-grid').onchange = function() {
+  localStorage.setItem('my-grid', this.value);
+  loadMyGridSettings();
+};
+
+
 $(document).ready(function () {
   var tabledata = localStorage.getItem("tabledata");
   var mycall = localStorage.getItem("my-call");
@@ -634,4 +671,7 @@ $(document).ready(function () {
     $("#qsoTable").html(tabledata);
     handleInput();
   }
+
+  loadPowerSettings();
+  loadMyGridSettings();
 });
