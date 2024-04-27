@@ -135,8 +135,7 @@ function handleInput() {
         )
       ) {
         callsign = item.toUpperCase();
-      } else if ((itemNumber > 0) && (item.match(/^\d{1,2}$/))) {
-
+      } else if ((itemNumber > 0) && (item.match(/(^[1-5][1-9][1-9]?$)/i))) {
         if (rst_s === null) {
           rst_s = item;
         } else {
@@ -186,7 +185,7 @@ function handleInput() {
         rst_r,
         sotaWff,
       ]);
-
+      console.log(row);
       const tableRow = $(`<tr>
         <td>${extraQsoDate}</td>
         <td>${qsotime}</td>
@@ -317,6 +316,9 @@ $(".js-load-sample-log").click(function () {
 ssb
 32 ok7wa ol/zl-071 5 8
 33 ok1xxx  4 3
+CW
+35 W8FJ 3 4
+38 N2KW 449 579
   `;
 
   $textarea.val(logData.trim());
