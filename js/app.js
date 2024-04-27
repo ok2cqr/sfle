@@ -135,7 +135,7 @@ function handleInput() {
         )
       ) {
         callsign = item.toUpperCase();
-      } else if ((itemNumber > 0) && (item.match(/(^[1-5][1-9][1-9]?$)/i))) {
+      } else if ((itemNumber > 0) && (item.match(/(^[1-9][1-9]?[1-9]?$)/i))) {
         if (rst_s === null) {
           rst_s = item;
         } else {
@@ -171,8 +171,13 @@ function handleInput() {
         extraQsoDate = qsodate;
       }
 
+      console.log(rst_s);
+      console.log(rst_r);
       rst_s = getReportByMode(rst_s, mode);
       rst_r = getReportByMode(rst_r, mode);
+      console.log(rst_s);
+      console.log(rst_r);
+
 
       qsoList.push([
         extraQsoDate,
@@ -185,7 +190,7 @@ function handleInput() {
         rst_r,
         sotaWff,
       ]);
-      console.log(row);
+      // console.log(row);
       const tableRow = $(`<tr>
         <td>${extraQsoDate}</td>
         <td>${qsotime}</td>
