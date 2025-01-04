@@ -275,10 +275,8 @@ $(".js-reload-qso").click(function () {
 
 $(".js-empty-qso").click(function () {
   var result = confirm("Do you really want to reset everything?");
-  if (result == true) {
+  if (result === true) {
     localStorage.removeItem("tabledata");
-    localStorage.removeItem("my-call");
-    localStorage.removeItem("operator");
     localStorage.removeItem("my-sota-wwff");
     localStorage.removeItem("qso-area");
     localStorage.removeItem("qsodate");
@@ -286,8 +284,6 @@ $(".js-empty-qso").click(function () {
     $("#qsodate").val("");
     $("#qsoTable tbody").empty();
     $("#my-sota-wwff").val("");
-    $("#my-call").val("");
-    $("#operator").val("");
     $(".qso-area").val("");
     $("#my-grid").val("");
     qsoList = [];
