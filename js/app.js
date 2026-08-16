@@ -126,7 +126,7 @@ function handleInput() {
       } else if (item.match(/^[0-5][0-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.slice(0, -2) + item;
       } else if (
-        item.match(/^([A-Z]*[F]{2}-\d{4})|([A-Z]*[A-Z]\/[A-Z]{2}-\d{3})$/i)
+        item.match(/^([A-Z0-9]{1,4}FF-\d{4}|[A-Z0-9]{1,4}\/[A-Z]{2}-\d{3})$/i)
       ) {
         sotaWff = item.toUpperCase();
       } else if (
@@ -564,7 +564,7 @@ function getReportByMode(rst, mode) {
 }
 
 function isSOTA(value) {
-  if (value.match(/^[A-Z]*[A-Z]\/[A-Z]{2}-\d{3}$/)) {
+  if (value.match(/^[A-Z0-9]{1,4}\/[A-Z]{2}-\d{3}$/i)) {
     return true;
   }
 
@@ -572,7 +572,7 @@ function isSOTA(value) {
 }
 
 function isWWFF(value) {
-  if (value.match(/^[A-Z]*[F]{2}-\d{4}$/)) {
+  if (value.match(/^[A-Z0-9]{1,4}FF-\d{4}$/i)) {
     return true;
   }
 
