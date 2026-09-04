@@ -205,7 +205,7 @@ function handleInput() {
 
       $("#qsoTable > tbody:last-child").append(tableRow);
 
-      localStorage.setItem("tabledata", $("#qsoTable").html());
+      localStorage.setItem("tabledata", $("#qsoTable tbody").html());
       localStorage.setItem("my-call", $("#my-call").val());
       localStorage.setItem("operator", $("#operator").val());
       localStorage.setItem("my-sota-wwff", $("#my-sota-wwff").val());
@@ -699,7 +699,7 @@ $(document).ready(function () {
   }
 
   if (tabledata != null) {
-    $("#qsoTable").html(tabledata);
+    $("#qsoTable tbody").html(tabledata);
     handleInput();
   }
 
