@@ -104,7 +104,7 @@
 							</div>
 							<div class="col-xs-12 col-lg-12 col-xl-6">
 								<div class="form-group">
-									<label for="wwff">WWFF/SOTA <span class="text-muted input-example">e.g.
+									<label for="my-sota-wwff">WWFF/SOTA/TOTA <span class="text-muted input-example">e.g.
 											OKFF-2068</span></label>
 									<input type="text" class="form-control text-uppercase" id="my-sota-wwff" autofocus>
 								</div>
@@ -150,7 +150,7 @@
 										<th>RS</th>
 										<th>RR</th>
 										<th>Op.</th>
-										<th>SOTA/WFF</th>
+										<th>SOTA/WFF/TOTA</th>
 									</tr>
 								</thead>
 								<tbody id="qsoTableBody">
@@ -259,6 +259,18 @@
 				<div class="row mb-3">
 					<div class="col">
 						<strong>Changelog:</strong>
+					</div>
+				</div>
+				<div class="row">
+					<div class="row">
+						<div class="col">
+							<p>
+								<strong>2026-09-04</strong>
+								<ul class="mt-1">
+									<li><span class="text-primary text-monospace">new:</span> support for TOTA (Towers on the Air) references, e.g. <i>OKR-1001</i>; exported to ADIF as <i>MY_SIG</i>/<i>SIG</i> = TOTA</li>
+								</ul>
+							</p>
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -422,7 +434,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 		crossorigin="anonymous"></script>
-	<script src="/js/app.js?v=202608161619"></script>
+	<script src="/js/app.js?v=202609041543"></script>
 	<script src="/js/theme-toggle.js"></script>
 </body>
 
