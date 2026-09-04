@@ -126,7 +126,7 @@ function handleInput() {
       } else if (item.match(/^[0-5][0-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.slice(0, -2) + item;
       } else if (
-        item.match(/^([A-Z0-9]{1,4}FF-\d{4}|[A-Z0-9]{1,4}\/[A-Z]{2}-\d{3}|[A-Z0-9]{2}R-\d{4})$/i)
+        item.match(/^([A-Z0-9]{1,4}FF-\d{4}|[A-Z0-9]{1,4}\/[A-Z]{2}-\d{3}|[A-Z0-9]{2}R-\d{4}|B\/[A-Z0-9]{1,4}-\d{4})$/i)
       ) {
         sotaWff = item.toUpperCase();
       } else if (
@@ -489,6 +489,9 @@ Internet: https://sfle.ok2cqr.com
     } else if (isTOTA(mySotaWwff)) {
       qso = qso + getAdifTag("MY_SIG", "TOTA");
       qso = qso + getAdifTag("MY_SIG_INFO", mySotaWwff);
+    } else if (isBOTA(mySotaWwff)) {
+      qso = qso + getAdifTag("MY_SIG", "WWBOTA");
+      qso = qso + getAdifTag("MY_SIG_INFO", mySotaWwff);
     }
 
     if (isSOTA(item[8])) {
@@ -498,6 +501,9 @@ Internet: https://sfle.ok2cqr.com
       qso = qso + getAdifTag("SIG_INFO", item[8]);
     } else if (isTOTA(item[8])) {
       qso = qso + getAdifTag("SIG", "TOTA");
+      qso = qso + getAdifTag("SIG_INFO", item[8]);
+    } else if (isBOTA(item[8])) {
+      qso = qso + getAdifTag("SIG", "WWBOTA");
       qso = qso + getAdifTag("SIG_INFO", item[8]);
     }
     
@@ -587,6 +593,14 @@ function isWWFF(value) {
 
 function isTOTA(value) {
   if (value.match(/^[A-Z0-9]{2}R-\d{4}$/i)) {
+    return true;
+  }
+
+  return false;
+}
+
+function isBOTA(value) {
+  if (value.match(/^B\/[A-Z0-9]{1,4}-\d{4}$/i)) {
     return true;
   }
 

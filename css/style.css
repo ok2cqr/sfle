@@ -51,10 +51,11 @@ tbody {
   position: absolute;
 }
 
+.input-example {
+  font-size: x-small;
+}
+
 @media (min-width: 1200px) {
-  .input-example {
-    font-size: x-small;
-  }
   label {
     font-size: small;
   }

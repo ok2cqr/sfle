@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-	<link rel="stylesheet" href="/css/style.css?v=202404270842" class="rel">
+	<link rel="stylesheet" href="/css/style.css?v=202609041823" class="rel">
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -104,8 +104,8 @@
 							</div>
 							<div class="col-xs-12 col-lg-12 col-xl-6">
 								<div class="form-group">
-									<label for="my-sota-wwff">WWFF/SOTA/TOTA <span class="text-muted input-example">e.g.
-											OKFF-2068</span></label>
+									<label for="my-sota-wwff">Reference <span class="text-muted input-example">e.g.
+											OKFF, OK/ZL, OL/ST, OKR, B/OK</span></label>
 									<input type="text" class="form-control text-uppercase" id="my-sota-wwff" autofocus>
 								</div>
 							</div>
@@ -150,7 +150,7 @@
 										<th>RS</th>
 										<th>RR</th>
 										<th>Op.</th>
-										<th>SOTA/WFF/TOTA</th>
+										<th>Ref</th>
 									</tr>
 								</thead>
 								<tbody id="qsoTableBody">
@@ -268,6 +268,8 @@
 								<strong>2026-09-04</strong>
 								<ul class="mt-1">
 									<li><span class="text-primary text-monospace">new:</span> support for TOTA (Towers on the Air) references, e.g. <i>OKR-1001</i>; exported to ADIF as <i>MY_SIG</i>/<i>SIG</i> = TOTA</li>
+									<li><span class="text-primary text-monospace">new:</span> support for WWBOTA (Bunkers on the Air) references, e.g. <i>B/OK-0067</i>; exported to ADIF as <i>MY_SIG</i>/<i>SIG</i> = WWBOTA</li>
+									<li><span class="text-danger text-monospace">fix:</span> the small grey examples next to the input labels were rendered in full size on windows narrower than 1200&nbsp;px</li>
 								</ul>
 							</p>
 						</div>
@@ -434,7 +436,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 		crossorigin="anonymous"></script>
-	<script src="/js/app.js?v=202609041543"></script>
+	<script src="/js/app.js?v=202609041818"></script>
 	<script src="/js/theme-toggle.js"></script>
 </body>
 
