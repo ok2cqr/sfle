@@ -201,16 +201,25 @@ function handleInput() {
         sotaWff,
       ]);
       // console.log(row);
+      const escapeHtml = (value) =>
+        String(value).replace(/[&<>"']/g, (c) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[c]));
+
       const tableRow = $(`<tr>
-        <td>${extraQsoDate}</td>
-        <td>${qsotime}</td>
-        <td>${callsign}</td>
-        <td><span data-toggle="tooltip" data-placement="left" title="${freq}">${band}</span></td>
-        <td>${mode}</td>
-        <td>${rst_s}</td>
-        <td>${rst_r}</td>
-        <td>${operator}</td>
-        <td>${sotaWff}</td>
+        <td>${escapeHtml(extraQsoDate)}</td>
+        <td>${escapeHtml(qsotime)}</td>
+        <td>${escapeHtml(callsign)}</td>
+        <td><span data-toggle="tooltip" data-placement="left" title="${escapeHtml(freq)}">${escapeHtml(band)}</span></td>
+        <td>${escapeHtml(mode)}</td>
+        <td>${escapeHtml(rst_s)}</td>
+        <td>${escapeHtml(rst_r)}</td>
+        <td>${escapeHtml(operator)}</td>
+        <td>${escapeHtml(sotaWff)}</td>
       </tr>`);
 
       $("#qsoTable > tbody:last-child").append(tableRow);
