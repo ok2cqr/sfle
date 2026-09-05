@@ -81,6 +81,21 @@ var callsign = "";
 var errors = [];
 var qsoList = [];
 
+// Parsed tokens and settings values end up inside HTML strings, so escape them
+// before they are handed to innerHTML/append().
+function escapeHtml(value) {
+  var entities = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  };
+  return String(value).replace(/[&<>"']/g, function (character) {
+    return entities[character];
+  });
+}
+
 function handleInput() {
   var qsodate = "";
   if ($("#qsodate").val()) {
@@ -202,15 +217,15 @@ function handleInput() {
       ]);
       // console.log(row);
       const tableRow = $(`<tr>
-        <td>${extraQsoDate}</td>
-        <td>${qsotime}</td>
-        <td>${callsign}</td>
-        <td><span data-toggle="tooltip" data-placement="left" title="${freq}">${band}</span></td>
-        <td>${mode}</td>
-        <td>${rst_s}</td>
-        <td>${rst_r}</td>
-        <td>${operator}</td>
-        <td>${sotaWff}</td>
+        <td>${escapeHtml(extraQsoDate)}</td>
+        <td>${escapeHtml(qsotime)}</td>
+        <td>${escapeHtml(callsign)}</td>
+        <td><span data-toggle="tooltip" data-placement="left" title="${escapeHtml(freq)}">${escapeHtml(band)}</span></td>
+        <td>${escapeHtml(mode)}</td>
+        <td>${escapeHtml(rst_s)}</td>
+        <td>${escapeHtml(rst_r)}</td>
+        <td>${escapeHtml(operator)}</td>
+        <td>${escapeHtml(sotaWff)}</td>
       </tr>`);
 
       $("#qsoTable > tbody:last-child").append(tableRow);
@@ -654,7 +669,7 @@ function loadPowerSettings() {
 
   let element = document.getElementsByClassName('js-power');
   if (myPower) {
-    element[0].innerHTML = 'Power: ' + myPower + 'W &nbsp;&nbsp;&nbsp;&nbsp;';  
+    element[0].innerHTML = 'Power: ' + escapeHtml(myPower) + 'W &nbsp;&nbsp;&nbsp;&nbsp;';  
   } else {
     element[0].innerHTML = '';
   }
@@ -667,7 +682,7 @@ function loadMyGridSettings () {
 
   let element = document.getElementsByClassName('js-my-grid');
   if (myGrid) {
-    element[0].innerHTML = 'My grid: ' + myGrid.toUpperCase();  
+    element[0].innerHTML = 'My grid: ' + escapeHtml(myGrid.toUpperCase());  
   } else {
     element[0].innerHTML = '';
   }
