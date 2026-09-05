@@ -1,3 +1,8 @@
+// Release stamp, rewritten by tools/bump-version.sh together with the ?v=
+// query strings in index.html. It also goes into the ADIF export header, so it
+// has to stay exactly 12 characters long.
+const APP_VERSION = "202609050845";
+
 var Bands = {
   b160M: {
     cw: "1.825",
@@ -448,7 +453,7 @@ Internet: https://sfle.ok2cqr.com
 
 <ADIF_VER:5>2.2.1
 <PROGRAMID:4>SFLE
-<PROGRAMVERSION:5>0.0.1
+<PROGRAMVERSION:12>${APP_VERSION}
 <EOH>
 
 `;
