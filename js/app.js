@@ -109,6 +109,11 @@ function handleInput() {
       if (item === '') {
         return;
       }
+      // A dot may be typed instead of the dash in a POTA reference, the dash
+      // needs the symbols' layout on a mobile keyboard.
+      if (item.match(/^[A-Z]{2}\.\d{4,5}$/i)) {
+        item = item.replace('.', '-');
+      }
       if (item.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
         extraQsoDate = item;
       } else if ((item.match(/^[0-2][0-9][0-5][0-9]$/) && itemNumber === 0)) {
@@ -126,7 +131,7 @@ function handleInput() {
       } else if (item.match(/^[0-5][0-9]{1}$/) && qsotime && itemNumber === 0) {
         qsotime = qsotime.slice(0, -2) + item;
       } else if (
-        item.match(/^([A-Z0-9]{1,4}FF-\d{4}|[A-Z0-9]{1,4}\/[A-Z]{2}-\d{3}|[A-Z0-9]{2}R-\d{4}|B\/[A-Z0-9]{1,4}-\d{4})$/i)
+        item.match(/^([A-Z0-9]{1,4}FF-\d{4}|[A-Z0-9]{1,4}\/[A-Z]{2}-\d{3}|[A-Z0-9]{2}R-\d{4}|B\/[A-Z0-9]{1,4}-\d{4}|[A-Z]{2}-\d{4,5})$/i)
       ) {
         sotaWff = item.toUpperCase();
       } else if (
@@ -492,6 +497,10 @@ Internet: https://sfle.ok2cqr.com
     } else if (isBOTA(mySotaWwff)) {
       qso = qso + getAdifTag("MY_SIG", "WWBOTA");
       qso = qso + getAdifTag("MY_SIG_INFO", mySotaWwff);
+    } else if (isPOTA(mySotaWwff)) {
+      qso = qso + getAdifTag("MY_SIG", "POTA");
+      qso = qso + getAdifTag("MY_SIG_INFO", mySotaWwff);
+      qso = qso + getAdifTag("MY_POTA_REF", mySotaWwff);
     }
 
     if (isSOTA(item[8])) {
@@ -505,6 +514,10 @@ Internet: https://sfle.ok2cqr.com
     } else if (isBOTA(item[8])) {
       qso = qso + getAdifTag("SIG", "WWBOTA");
       qso = qso + getAdifTag("SIG_INFO", item[8]);
+    } else if (isPOTA(item[8])) {
+      qso = qso + getAdifTag("SIG", "POTA");
+      qso = qso + getAdifTag("SIG_INFO", item[8]);
+      qso = qso + getAdifTag("POTA_REF", item[8]);
     }
     
     if (myPower) {
@@ -601,6 +614,14 @@ function isTOTA(value) {
 
 function isBOTA(value) {
   if (value.match(/^B\/[A-Z0-9]{1,4}-\d{4}$/i)) {
+    return true;
+  }
+
+  return false;
+}
+
+function isPOTA(value) {
+  if (value.match(/^[A-Z]{2}-\d{4,5}$/i)) {
     return true;
   }
 

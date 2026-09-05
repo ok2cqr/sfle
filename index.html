@@ -20,20 +20,20 @@
 	<meta name="theme-color" content="#ffffff">
 
 	<meta name="description"
-		content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+		content="Simple fast log entry - a tool to enter QSO from your SOTA/BOTA/POTA/TOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
 	<meta name="robots" content="index, follow">
 	<meta property="og:title"
-		content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+		content="Simple fast log entry - a tool to enter QSO from your SOTA/BOTA/POTA/TOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
 	<meta property="og:url" content="https://sfle.ok2cqr.com">
 	<meta property="og:description"
-		content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+		content="Simple fast log entry - a tool to enter QSO from your SOTA/BOTA/POTA/TOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
 	<meta property="og:site_name" content="Simple fast log entry">
 	<meta property="og:type" content="article">
 	<meta name="twitter:title" content="Simple fast log entry">
 	<meta name="twitter:url" content="https://sfle.ok2cqr.com">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:description"
-		content="Simple fast log entry - a tool to enter QSO from your SOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
+		content="Simple fast log entry - a tool to enter QSO from your SOTA/BOTA/POTA/TOTA/GMA/WWFF activations and create the ADIF file - everything just in your browser.">
 </head>
 
 <body>
@@ -105,7 +105,7 @@
 							<div class="col-xs-12 col-lg-12 col-xl-6">
 								<div class="form-group">
 									<label for="my-sota-wwff">Ref. <span class="text-muted input-example">(
-											OKFF,OK/ZL,OL/ST,OKR,B/OK)</span></label>
+											OKFF,OK/ZL,OL/ST,OKR,B/OK,CZ-0001)</span></label>
 									<input type="text" class="form-control text-uppercase" id="my-sota-wwff" autofocus>
 								</div>
 							</div>
@@ -236,7 +236,7 @@
 							Unfortunately, the FLE works only on Windows and Linux using Wine, but I needed something
 							working on macOS and/or
 							Android tablet. I&nbsp;didn't need all the features, just wanted to log QSO from my
-							WFF/SOTA/GMA activation.
+							SOTA/BOTA/POTA/TOTA/GMA/WWFF activation.
 						</p>
 
 						<p>
@@ -265,6 +265,18 @@
 					<div class="row">
 						<div class="col">
 							<p>
+								<strong>2026-09-05</strong>
+								<ul class="mt-1">
+									<li><span class="text-primary text-monospace">new:</span>
+										support for POTA (Parks on the Air) references, e.g. US-0001 or CZ-0042; exported to ADIF as MY_SIG/SIG = POTA together with MY_POTA_REF/POTA_REF. The dot shortcut works as well, us.0001
+									</li>
+								</ul>
+							</p>
+						</div>
+					</div>					
+					<div class="row">
+						<div class="col">
+							<p>
 								<strong>2026-09-04</strong>
 								<ul class="mt-1">
 									<li><span class="text-primary text-monospace">new:</span> support for TOTA (Towers on the Air) references, e.g. <i>OKR-1001</i>; exported to ADIF as <i>MY_SIG</i>/<i>SIG</i> = TOTA</li>
@@ -274,8 +286,6 @@
 							</p>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="row">
 						<div class="col">
 							<p>
@@ -436,7 +446,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 		crossorigin="anonymous"></script>
-	<script src="/js/app.js?v=202609041850"></script>
+	<script src="/js/app.js?v=202609050845"></script>
 	<script src="/js/theme-toggle.js"></script>
 </body>
 
