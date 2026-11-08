@@ -1,7 +1,7 @@
 // Release stamp, rewritten by tools/bump-version.sh together with the ?v=
 // query strings in index.html. It also goes into the ADIF export header, so it
 // has to stay exactly 12 characters long.
-const APP_VERSION = "202609050845";
+const APP_VERSION = "202611081252";
 
 var Bands = {
   b160M: {
