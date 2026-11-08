@@ -123,10 +123,37 @@ function handleInput() {
   lines.forEach((row) => {
     var rst_s = null;
     var rst_r = null;
+    var qsoName = "";
+    var grid = "";
+    var qsoComment = "";
+    var qslMessage = "";
+
+    // <comment> and [QSL message] may contain spaces and words that look like
+    // callsigns or reports, so they are taken out before the line is split.
+    // A missing closing bracket means the text runs to the end of the line.
+    row = row.replace(/<([^>]*)>?|\[([^\]]*)\]?/g, (match, commentText, qslText) => {
+      if (commentText !== undefined) {
+        qsoComment = commentText.trim();
+      } else {
+        qslMessage = qslText.trim();
+      }
+      return " ";
+    });
+
     items = row.split(" ");
     var itemNumber = 0;
     items.forEach((item) => {
       if (item === '') {
+        return;
+      }
+      // These return before itemNumber is increased, so that a time can still
+      // follow them, and before the callsign pattern, which would match #ok1abc.
+      if (item.startsWith("#")) {
+        grid = item.slice(1).toUpperCase();
+        return;
+      }
+      if (item.startsWith("@")) {
+        qsoName = item.slice(1);
         return;
       }
       // A dot may be typed instead of the dash in a POTA reference, the dash
@@ -140,7 +167,7 @@ function handleInput() {
         qsotime = item;
       } else if (item.match(/^CW$|^SSB$|^FM$|^AM$|^PSK$|^FT8$/i)) {
         mode = item.toUpperCase();
-      } else if (item.match(/^[1-9]?\d\d[Mm]$/) || item.toUpperCase() === '70CM') {
+      } else if (item.match(/^([1-9]?\d\d|[26])[Mm]$/) || item.toUpperCase() === '70CM') {
         band = item.toUpperCase();
         freq = 0;
       } else if (item.match(/^\d+\.\d+$/)) {
@@ -196,6 +223,11 @@ function handleInput() {
         extraQsoDate = qsodate;
       }
 
+      if (grid && !isGrid(grid)) {
+        addErrorMessage("Invalid grid " + escapeHtml(grid));
+        grid = "";
+      }
+
       console.log(rst_s);
       console.log(rst_r);
       rst_s = getReportByMode(rst_s, mode);
@@ -214,6 +246,10 @@ function handleInput() {
         rst_s,
         rst_r,
         sotaWff,
+        qsoName,
+        grid,
+        qsoComment,
+        qslMessage,
       ]);
       // console.log(row);
       const tableRow = $(`<tr>
@@ -226,6 +262,10 @@ function handleInput() {
         <td>${escapeHtml(rst_r)}</td>
         <td>${escapeHtml(operator)}</td>
         <td>${escapeHtml(sotaWff)}</td>
+        <td>${escapeHtml(qsoName)}</td>
+        <td>${escapeHtml(grid)}</td>
+        <td>${escapeHtml(qsoComment)}</td>
+        <td>${escapeHtml(qslMessage)}</td>
       </tr>`);
 
       $("#qsoTable > tbody:last-child").append(tableRow);
@@ -246,8 +286,8 @@ function handleInput() {
     showErrors();
   }); //lines.forEach((row)   
 
-  // Scroll to the bototm of #qsoTableBody (scroll by the value of its scrollheight property)
-  $("#qsoTableBody").scrollTop($('#qsoTableBody').get(0).scrollHeight);
+  // Scroll to the bottom of the QSO list (scroll by the value of its scrollheight property)
+  $(".qsoList").scrollTop($(".qsoList").get(0).scrollHeight);
 
   var qsoCount = qsoList.length;
   if (qsoCount) {
@@ -334,17 +374,17 @@ $(".js-load-sample-log").click(function () {
   }
   const logData = `
 80m cw
-1212 ok1uu okff-1234
-3 ok1rr
-4 ok1tn
-20 dl6kva 7 8
+1212 ok1uu okff-1234 @Honza
+3 ok1rr @Martin 
+4 ok1tn @Slávek
+20 dl6kva 7 8 @Axel
 5 dl5cw 
 ssb
-32 ok7wa ol/zl-071 5 8
+32 ok7wa ol/zl-071 5 8 #jn89re @Franta
 33 ok1xxx  4 3
 CW
-35 W8FJ 3 4
-38 N2KW 449 579
+35 W8FJ 3 4 @John <K4D> [LoTW]
+38 N2KW 449 579 @Allen
   `;
 
   $textarea.val(logData.trim());
@@ -539,7 +579,23 @@ Internet: https://sfle.ok2cqr.com
       qso = qso + getAdifTag("SIG_INFO", item[8]);
       qso = qso + getAdifTag("POTA_REF", item[8]);
     }
-    
+
+    if (item[9]) {
+      qso = qso + getAdifTag("NAME", item[9]);
+    }
+
+    if (item[10]) {
+      qso = qso + getAdifTag("GRIDSQUARE", item[10]);
+    }
+
+    if (item[11]) {
+      qso = qso + getAdifTag("COMMENT", item[11]);
+    }
+
+    if (item[12]) {
+      qso = qso + getAdifTag("QSLMSG", item[12]);
+    }
+
     if (myPower) {
       qso = qso + getAdifTag("TX_PWR", myPower);
     }
@@ -642,6 +698,14 @@ function isBOTA(value) {
 
 function isPOTA(value) {
   if (value.match(/^[A-Z]{2}-\d{4,5}$/i)) {
+    return true;
+  }
+
+  return false;
+}
+
+function isGrid(value) {
+  if (value.match(/^[A-R]{2}(\d{2}([A-X]{2}(\d{2})?)?)?$/i)) {
     return true;
   }
 

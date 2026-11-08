@@ -128,7 +128,16 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<p class="mt-1 mb-0">Enter the data</p>
+								<p class="mt-1 mb-0">
+									Enter the data
+									<button type="button" class="btn btn-link p-0 border-0 align-baseline" data-bs-toggle="modal"
+										data-bs-target="#formatHelp" title="How to enter the data" aria-label="How to enter the data">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+											<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+										</svg>
+									</button>
+								</p>
 								<textarea name="qso" class="form-control qso-area" cols="auto" rows="11">
 
 								</textarea>
@@ -151,6 +160,10 @@
 										<th>RR</th>
 										<th>Op.</th>
 										<th>Ref</th>
+										<th>Name</th>
+										<th>Grid</th>
+										<th>Comment</th>
+										<th>QSL msg</th>
 									</tr>
 								</thead>
 								<tbody id="qsoTableBody">
@@ -262,6 +275,18 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="row">
+						<div class="col">
+							<p>
+								<strong>2026-11-08</strong>
+								<ul class="mt-1">
+									<li><span class="text-primary text-monospace">new:</span> the question mark next to <i>Enter the data</i> opens a description of the input format</li>
+									<li><span class="text-danger text-monospace">fix:</span> bands <i>6m</i> and <i>2m</i> were not recognized and the QSO was logged on the previous band</li>
+									<li><span class="text-primary text-monospace">new:</span> additional QSO data - <i>#JN89</i> is the station's grid, <i>@Petr</i> the operator's name, <i>&lt;text&gt;</i> a comment and <i>[text]</i> a QSL message; exported to ADIF as <i>GRIDSQUARE</i>, <i>NAME</i>, <i>COMMENT</i> and <i>QSLMSG</i></li>
+								</ul>
+							</p>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col">
 							<p>
@@ -440,6 +465,97 @@
 			</span>
 		</div>
 	</footer>
+	<div class="modal fade" id="formatHelp" tabindex="-1" aria-labelledby="formatHelpTitle" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="formatHelpTitle">How to enter the data</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Write one QSO per line, with the values separated by spaces. Only a line with a callsign creates
+						a QSO. Apart from the time, which has to be first on the line, the order of the values doesn't matter.
+					</p>
+					<pre class="border rounded p-2"><code>80m cw
+1212 ok1uu okff-1234
+3 ok1rr 5 7
+20 dl6kva @Axel #JO62 &lt;nice signal&gt; [tnx fer qso]
+ssb
+32 ok7wa ol/zl-071 5 8</code></pre>
+					<h2 class="fs-6 mt-3">Valid until you change them</h2>
+					<table class="table table-sm">
+						<tbody>
+							<tr>
+								<td class="text-nowrap"><code>1212</code></td>
+								<td>Time as HHMM, first on the line.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>20</code>, <code>3</code></td>
+								<td>Short time, first on the line. Two digits replace the minutes, one digit (1-9) replaces the
+									last digit of the minutes: after 12:12, <code>20</code> means 12:20 and <code>3</code> means 12:13.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>80m</code>, <code>2m</code>, <code>70cm</code></td>
+								<td>Band. The frequency is taken from the Settings tab.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>14.032</code></td>
+								<td>Frequency in MHz. The band is worked out from it.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>cw</code></td>
+								<td>Mode: CW, SSB, FM, AM, PSK or FT8.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>2026-11-08</code></td>
+								<td>QSO date, if it differs from the <i>QSO date</i> field.</td>
+							</tr>
+						</tbody>
+					</table>
+					<h2 class="fs-6 mt-3">Valid for one line only</h2>
+					<table class="table table-sm">
+						<tbody>
+							<tr>
+								<td class="text-nowrap"><code>ok1uu</code></td>
+								<td>Callsign of the other station.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>5 7</code></td>
+								<td>Reports, not first on the line: sent, then received. On CW and digital modes <code>7</code> means
+									579 and <code>44</code> means 449, on SSB <code>7</code> means 57. Without a report, 599 or 59 is used.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>okff-1234</code></td>
+								<td>Reference of the other station: WWFF <code>OKFF-1234</code>, SOTA <code>OK/ZL-071</code>,
+									TOTA <code>OKR-1001</code>, WWBOTA <code>B/OK-0067</code> or POTA <code>CZ-0042</code>
+									(<code>cz.0042</code> works as well).</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>#JN89</code></td>
+								<td>Grid of the other station.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>@Petr</code></td>
+								<td>Name of the other operator, one word.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>&lt;text&gt;</code></td>
+								<td>Comment, may contain spaces.</td>
+							</tr>
+							<tr>
+								<td class="text-nowrap"><code>[text]</code></td>
+								<td>QSL message, may contain spaces.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
